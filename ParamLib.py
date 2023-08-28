@@ -1,3 +1,5 @@
+#Villalpando Rivera Ismael
+#Cutonala. ALgoritmos Bioinspirados. 2023-B
 from PSLib import AlgBio
 import random
 class ParamLib:
