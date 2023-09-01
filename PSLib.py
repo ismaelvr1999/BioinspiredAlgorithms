@@ -14,7 +14,6 @@ class AlgBio:
 
         def GenerarInd(self):
             self.Individuos = [random.randint(0,15) for x in range(0,30)]
-                
             print(self.Individuos)
             return self.Individuos
 
