@@ -2,6 +2,7 @@
 #Cutonala. ALgoritmos Bioinspirados. 2023-B
 import random
 import math
+import numpy as np
 class AlgBio:
 
     def __init__(self) -> None:
@@ -57,6 +58,88 @@ class AlgBio:
                     else: HijoMutado += "0"
                 else: HijoMutado +=gen
             return HijoMutado
+
+    class AntColony:
+        def __init__(self, num_ants, num_iteraciones, tasa_evaporacion_feromona, alpha, beta, graph):
+            self.num_ants = num_ants
+            self.num_iteraciones = num_iteraciones
+            self.tasa_evaporacion_feromona = tasa_evaporacion_feromona
+            self.alpha = alpha
+            self.beta = beta
+            self.graph = graph
+            self.num_ciudades = len(graph)
+            self.matriz_feromonas = np.ones((self.num_ciudades, self.num_ciudades))
+
+        def run(self):
+            mejor_viaje = None
+            mejor_distancia = float('inf')
+
+            for iteration in range(self.num_iteraciones):
+                ant_tours = []
+
+                for ant in range(self.num_ants):
+                    tour = self.generar_ant_ruta()
+                    ant_tours.append((tour, self.calcular_distancia_recorrido(tour)))
+
+                    if ant_tours[-1][1] < mejor_distancia:
+                        mejor_viaje = ant_tours[-1][0]
+                        mejor_distancia = ant_tours[-1][1]
+
+                self.actualizacion_feromona(ant_tours)
+                print(f"Iteration {iteration}: Best distance = {mejor_distancia}, Best tour = {mejor_viaje}")
+
+            return mejor_viaje, mejor_distancia
+
+        def generar_ant_ruta(self):
+            tour = [random.randint(0, self.num_ciudades - 1)]
+            ciudad_sinvisitar = set(range(self.num_ciudades))
+
+            while ciudad_sinvisitar:
+                next_city = self.elegir_siguiente_ciudad(tour[-1], ciudad_sinvisitar)
+                tour.append(next_city)
+                ciudad_sinvisitar.remove(next_city)
+
+            return tour
+
+        def elegir_siguiente_ciudad(self, ciudad_actual, ciudad_sinvisitar):
+            probabilidades = []
+
+            for city in ciudad_sinvisitar:
+                pheromone = self.matriz_feromonas[ciudad_actual][city]
+                distance = self.graph[ciudad_actual][city]
+
+                # Manejar distancias iguales a cero
+                if distance == 0:
+                    probability = 0
+                else:
+                    probability = (pheromone ** self.alpha) * ((1 / distance) ** self.beta)
+                
+                probabilidades.append(probability)
+
+            total_probability = sum(probabilidades)
+            normalized_probabilidades = [p / total_probability for p in probabilidades]
+            ciudad_elegida = np.random.choice(list(ciudad_sinvisitar), p=normalized_probabilidades)
+
+            return ciudad_elegida
+        def calcular_distancia_recorrido(self, tour):
+            distance = 0
+
+            for i in range(len(tour) - 1):
+                from_city = tour[i]
+                to_city = tour[i + 1]
+                distance += self.graph[from_city][to_city]
+
+            return distance
+
+        def actualizacion_feromona(self, ant_tours):
+            self.matriz_feromonas *= (1 - self.tasa_evaporacion_feromona)
+
+            for tour, tour_distance in ant_tours:
+                for i in range(len(tour) - 1):
+                    from_city = tour[i]
+                    to_city = tour[i + 1]
+                    self.matriz_feromonas[from_city][to_city] += 1 / tour_distance
+                    self.matriz_feromonas[to_city][from_city] += 1 / tour_distance
  
                 
     
