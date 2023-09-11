@@ -7,7 +7,7 @@ class AlgBio:
 
     def __init__(self) -> None:
         pass
-
+#-----------Algoritmo genetico -----------
     class AlgGen:
 
         def __init__(self) -> None:
@@ -19,7 +19,7 @@ class AlgBio:
         
         def Cruza(self,Individuos,tasa_mutacion):
             nuevaGeneracion = [] 
-            for x in range(0,15):
+            for x in range(0,int(len(Individuos)/2)):
                 IndRand1 = random.randint(0,29)
                 IndRand2 = random.randint(0,29)
                 PuntoCruzaR = random.randint(0,3)
@@ -36,12 +36,12 @@ class AlgBio:
                 Hijo1 = BinPadr2[:PuntoCruzaR] + BinPadr1[PuntoCruzaR:]
                 Hijo2 = BinPadr1[:PuntoCruzaR] +BinPadr2[PuntoCruzaR:]
 
-                print(f"Punto de Cruze: {str(PuntoCruzaR)} Padre 1: {BinPadr1} Padre 2: {BinPadr2}")
-                print(f"Hijo 1: {Hijo1} Hijo 2: {Hijo2}")
+                #print(f"Punto de Cruze: {str(PuntoCruzaR)} Padre 1: {BinPadr1} Padre 2: {BinPadr2}")
+                #print(f"Hijo 1: {Hijo1} Hijo 2: {Hijo2}")
 
                 MutacionH1 = self.Mutacion(Hijo1,tasa_mutacion)
                 MutacionH2 = self.Mutacion(Hijo2,tasa_mutacion)
-                print(f"Mutacion Hijo 1: { MutacionH1} MutacionHijo 2: { MutacionH2}")
+                #print(f"Mutacion Hijo 1: { MutacionH1} MutacionHijo 2: { MutacionH2}")
 
                 nuevaGeneracion.append(int(MutacionH1,2))
                 nuevaGeneracion.append(int(MutacionH2,2))
@@ -49,18 +49,20 @@ class AlgBio:
             return nuevaGeneracion
 
         def Mutacion(self,Hijo,tasa_mutacion):
-            HijoMutado = ""
-            for i in range(len(Hijo)):
-                gen = Hijo[i]
+            HijoMutado = list(Hijo)
+            for i in range(len(HijoMutado)):
+                gen = HijoMutado [i]
                 if random.random() < tasa_mutacion:
                     if gen == "0":
-                        HijoMutado += "1"
-                    else: HijoMutado += "0"
-                else: HijoMutado +=gen
-            return HijoMutado
-
+                        HijoMutado[i]= "1"
+                    else: 
+                        HijoMutado[i]= "0"
+                    break
+            HijoMutadoN =''.join(HijoMutado)
+            return HijoMutadoN
+#  -----------Algoritmo de colonia de hormigas -----------
     class AntColony:
-        def __init__(self, num_ants, num_iteraciones, tasa_evaporacion_feromona, alpha, beta, graph):
+        def __init__(self, num_ants, num_iteraciones, tasa_evaporacion_feromona, alpha, beta, graph,funcion_objetivo):
             self.num_ants = num_ants
             self.num_iteraciones = num_iteraciones
             self.tasa_evaporacion_feromona = tasa_evaporacion_feromona
@@ -69,6 +71,7 @@ class AlgBio:
             self.graph = graph
             self.num_ciudades = len(graph)
             self.matriz_feromonas = np.ones((self.num_ciudades, self.num_ciudades))
+            self.funcion_objetivo = funcion_objetivo
 
         def run(self):
             mejor_viaje = None
@@ -79,15 +82,15 @@ class AlgBio:
 
                 for ant in range(self.num_ants):
                     tour = self.generar_ant_ruta()
-                    ant_tours.append((tour, self.calcular_distancia_recorrido(tour)))
+                    ant_tours.append((tour, self.funcion_objetivo.calcular_distancia_recorrido(tour)))
 
                     if ant_tours[-1][1] < mejor_distancia:
                         mejor_viaje = ant_tours[-1][0]
                         mejor_distancia = ant_tours[-1][1]
 
                 self.actualizacion_feromona(ant_tours)
-                print(f"Iteration {iteration}: Best distance = {mejor_distancia}, Best tour = {mejor_viaje}")
-
+                print(f"Iteracion {iteration}: Mejor distancia = {mejor_distancia}, Mejor viaje = {mejor_viaje}")
+    
             return mejor_viaje, mejor_distancia
 
         def generar_ant_ruta(self):
@@ -108,7 +111,7 @@ class AlgBio:
                 pheromone = self.matriz_feromonas[ciudad_actual][city]
                 distance = self.graph[ciudad_actual][city]
 
-                # Manejar distancias iguales a cero
+               
                 if distance == 0:
                     probability = 0
                 else:
@@ -121,16 +124,7 @@ class AlgBio:
             ciudad_elegida = np.random.choice(list(ciudad_sinvisitar), p=normalized_probabilidades)
 
             return ciudad_elegida
-        def calcular_distancia_recorrido(self, tour):
-            distance = 0
-
-            for i in range(len(tour) - 1):
-                from_city = tour[i]
-                to_city = tour[i + 1]
-                distance += self.graph[from_city][to_city]
-
-            return distance
-
+        
         def actualizacion_feromona(self, ant_tours):
             self.matriz_feromonas *= (1 - self.tasa_evaporacion_feromona)
 
@@ -140,6 +134,47 @@ class AlgBio:
                     to_city = tour[i + 1]
                     self.matriz_feromonas[from_city][to_city] += 1 / tour_distance
                     self.matriz_feromonas[to_city][from_city] += 1 / tour_distance
+#  -----------Algoritmo Recocido Simulado -----------
+    class RecocidoSimulado:
+
+        def __init__(self, ciudades, temperatura_inicial, factor_enfriamiento, iteraciones,funcion_objetivo):
+            self.ciudades = ciudades
+            self.temperatura_inicial = temperatura_inicial
+            self.factor_enfriamiento = factor_enfriamiento
+            self.iteraciones = iteraciones
+            self.funcion_objetivo = funcion_objetivo
+
+        def recocido_simulado(self):
+            n = len(self.ciudades)
+            mejor_solucion = list(range(n))  
+            mejor_costo = self.funcion_objetivo.costo_total(mejor_solucion)
+            temperatura_actual = self.temperatura_inicial
+
+            for i in range(self.iteraciones):
+               
+                solucion_vecina = mejor_solucion.copy()
+                j, k = random.sample(range(n), 2)
+                solucion_vecina[j], solucion_vecina[k] = solucion_vecina[k], solucion_vecina[j]
+
+                costo_vecino = self.funcion_objetivo.costo_total(solucion_vecina)
+
+                
+                if costo_vecino < mejor_costo or random.random() < math.exp((mejor_costo - costo_vecino) / temperatura_actual):
+                    mejor_solucion = solucion_vecina
+                    mejor_costo = costo_vecino
+
+               
+                temperatura_actual *= self.factor_enfriamiento
+
+            return mejor_solucion, mejor_costo
+
+
+            
+        
+
+
+
+        
  
                 
     

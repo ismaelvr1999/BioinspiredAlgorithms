@@ -1,3 +1,21 @@
 {
-    "sem": " "
+    "AlgGen": 
+    {
+        "TasaMutacion":0.1,
+        "Iteraciones":10
+    },
+    "AlgAntColony":
+    {
+        "NumAnts": 10,
+        "Iteraciones":50,
+        "TasaEvaporacion":0.2,
+        "Alpha":1,
+        "Beta":1
+    },
+    "AlgRecocidoSimulado":
+    {
+        "TempIni":1000,
+        "FactEnfr":0.95,
+        "Iteraciones": 100
+    }
 }
