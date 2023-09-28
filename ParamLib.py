@@ -74,7 +74,18 @@ class ParamLib:
             for i in range(len(solucion)):
                 costo += self.distancia(self.ciudades[solucion[i]], self.ciudades[solucion[(i + 1) % len(solucion)]])
             return costo
-            
+#  -----------Algoritmo Sistema inmunologico  -----------
+    class ParamAlgSistemaInmunologico:
+        def __init__(self) -> None:
+            pass
+        def calcular_afinidad(self, antigeno,anticuerpos,longitud_anticuerpo):
+            afinidades = []
+            for anticuerpo in anticuerpos:
+                afinidad = sum([1 for i in range(longitud_anticuerpo) if anticuerpo[i] == antigeno[i]])
+                afinidades.append(afinidad)
+            print(afinidades)
+            return afinidades
+
     def leerJSON(self,NombreArch):
         with open(NombreArch) as archivo:
             datos = json.load(archivo)
@@ -124,6 +135,24 @@ datos = parametros.leerJSON("Conf.json")
 # mejor_solucion, mejor_costo = recocido.recocido_simulado()
 # print("Mejor solución encontrada:", mejor_solucion)
 # print("Costo de la mejor solución:", mejor_costo)
+
+# ----------- Prueba Algoritmo Sistema inmunologico-------------
+
+num_anticuerpos = 10
+longitud_anticuerpo = 8
+functObt = ParamLib.ParamAlgSistemaInmunologico();
+sistema = AlgBio.SistemaInmunologico(num_anticuerpos, longitud_anticuerpo,functObt)
+antigeno = [1, 0, 1, 0, 1, 0, 1, 0]
+seleccionados = sistema.seleccionar_anticuerpos(antigeno, num_anticuerpos // 2)
+print("Anticuerpos seleccionados:")
+for anticuerpo in seleccionados:
+    print(anticuerpo)
+
+probabilidad_mutacion = 0.1
+sistema.mutar_anticuerpos(probabilidad_mutacion)
+print("\nAnticuerpos después de la mutación:")
+for anticuerpo in sistema.anticuerpos:
+    print(anticuerpo)
 
 
 

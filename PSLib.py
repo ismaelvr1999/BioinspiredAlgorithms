@@ -136,7 +136,6 @@ class AlgBio:
                     self.matriz_feromonas[to_city][from_city] += 1 / tour_distance
 #  -----------Algoritmo Recocido Simulado -----------
     class RecocidoSimulado:
-
         def __init__(self, ciudades, temperatura_inicial, factor_enfriamiento, iteraciones,funcion_objetivo):
             self.ciudades = ciudades
             self.temperatura_inicial = temperatura_inicial
@@ -167,6 +166,36 @@ class AlgBio:
                 temperatura_actual *= self.factor_enfriamiento
 
             return mejor_solucion, mejor_costo
+#  -----------Algoritmo Sistema inmunologico -----------
+    class SistemaInmunologico:
+        def __init__(self, num_anticuerpos, longitud_anticuerpo,functObj):
+            self.num_anticuerpos = num_anticuerpos
+            self.longitud_anticuerpo = longitud_anticuerpo
+            self.anticuerpos = self.generar_anticuerpos()
+            self.functObj = functObj
+
+        def generar_anticuerpos(self):
+            anticuerpos = []
+            for _ in range(self.num_anticuerpos):
+                anticuerpo = [ random.randint(0, 1) for _ in range(self.longitud_anticuerpo)]
+                anticuerpos.append(anticuerpo)
+            return anticuerpos
+        
+        def seleccionar_anticuerpos(self, antigeno, num_seleccionados):
+            afinidades = self.functObj.calcular_afinidad(antigeno,self.anticuerpos,self.longitud_anticuerpo)
+            mejores_indices = sorted(range(len(afinidades)), key=lambda i: afinidades[i], reverse=True)
+            seleccionados = [self.anticuerpos[i] for i in mejores_indices[:num_seleccionados]]
+            return seleccionados
+
+        def mutar_anticuerpos(self, probabilidad_mutacion):
+            for i in range(self.num_anticuerpos):
+                for j in range(self.longitud_anticuerpo):
+                    if random.random() < probabilidad_mutacion:
+                        self.anticuerpos[i][j] = 1 - self.anticuerpos[i][j]
+
+
+
+        
 
 
             
