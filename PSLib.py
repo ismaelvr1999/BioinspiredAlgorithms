@@ -168,11 +168,14 @@ class AlgBio:
             return mejor_solucion, mejor_costo
 #  -----------Algoritmo Sistema inmunologico -----------
     class SistemaInmunologico:
-        def __init__(self, num_anticuerpos, longitud_anticuerpo,functObj):
+        def __init__(self, num_anticuerpos, longitud_anticuerpo,functObj,antigeno,probabilidad_mutacion,iteraciones):
             self.num_anticuerpos = num_anticuerpos
             self.longitud_anticuerpo = longitud_anticuerpo
             self.anticuerpos = self.generar_anticuerpos()
             self.functObj = functObj
+            self.antigeno = antigeno
+            self.probabilidad_mutacion = probabilidad_mutacion
+            self.iteraciones = iteraciones
 
         def generar_anticuerpos(self):
             anticuerpos = []
@@ -181,17 +184,37 @@ class AlgBio:
                 anticuerpos.append(anticuerpo)
             return anticuerpos
         
-        def seleccionar_anticuerpos(self, antigeno, num_seleccionados):
-            afinidades = self.functObj.calcular_afinidad(antigeno,self.anticuerpos,self.longitud_anticuerpo)
+        def seleccionar_anticuerpos(self, num_seleccionados):
+            afinidades = self.functObj.calcular_afinidad(self.antigeno,self.anticuerpos,self.longitud_anticuerpo)
             mejores_indices = sorted(range(len(afinidades)), key=lambda i: afinidades[i], reverse=True)
+            print(mejores_indices)
             seleccionados = [self.anticuerpos[i] for i in mejores_indices[:num_seleccionados]]
             return seleccionados
 
-        def mutar_anticuerpos(self, probabilidad_mutacion):
+        def mutar_anticuerpos(self):
             for i in range(self.num_anticuerpos):
                 for j in range(self.longitud_anticuerpo):
-                    if random.random() < probabilidad_mutacion:
+                    if random.random() < self.probabilidad_mutacion:
                         self.anticuerpos[i][j] = 1 - self.anticuerpos[i][j]
+        
+        def run(self):
+            print(f"Antigeno : {self.antigeno}")
+            print("Anticuerpos generados de inicio: ")
+            for anticuerpo in self.anticuerpos:
+                print(anticuerpo)
+            for i in range(self.iteraciones):
+                print(f"-------Iteracion {i} -------")
+                print("Anticuerpos con mas afinidad: ")
+                seleccionados = self.seleccionar_anticuerpos(self.num_anticuerpos // 2)
+                for anticuerpo in seleccionados:
+                    print(anticuerpo)
+
+                self.mutar_anticuerpos()
+                print("\nAnticuerpos después de la mutación:")
+                for anticuerpo in self.anticuerpos:
+                    print(anticuerpo)
+
+
 
 
 

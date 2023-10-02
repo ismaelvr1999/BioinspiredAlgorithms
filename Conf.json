@@ -17,5 +17,12 @@
         "TempIni":1000,
         "FactEnfr":0.95,
         "Iteraciones": 100
+    },
+    "AlgSistemaInmunologico":
+    {
+        "num_anticuerpos": 10,
+        "long_anticuerpos":8,
+        "prob_mutacion":0.1,
+        "Iteraciones":3
     }
 }

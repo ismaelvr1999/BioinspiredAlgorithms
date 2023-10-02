@@ -83,7 +83,6 @@ class ParamLib:
             for anticuerpo in anticuerpos:
                 afinidad = sum([1 for i in range(longitud_anticuerpo) if anticuerpo[i] == antigeno[i]])
                 afinidades.append(afinidad)
-            print(afinidades)
             return afinidades
 
     def leerJSON(self,NombreArch):
@@ -138,21 +137,15 @@ datos = parametros.leerJSON("Conf.json")
 
 # ----------- Prueba Algoritmo Sistema inmunologico-------------
 
-num_anticuerpos = 10
-longitud_anticuerpo = 8
-functObt = ParamLib.ParamAlgSistemaInmunologico();
-sistema = AlgBio.SistemaInmunologico(num_anticuerpos, longitud_anticuerpo,functObt)
-antigeno = [1, 0, 1, 0, 1, 0, 1, 0]
-seleccionados = sistema.seleccionar_anticuerpos(antigeno, num_anticuerpos // 2)
-print("Anticuerpos seleccionados:")
-for anticuerpo in seleccionados:
-    print(anticuerpo)
+# num_anticuerpos = datos["AlgSistemaInmunologico"]["num_anticuerpos"]
+# longitud_anticuerpo = datos["AlgSistemaInmunologico"]["long_anticuerpos"]
+# antigeno = [1, 0, 1, 0, 1, 0, 1, 0]
+# probabilidad_mutacion =  datos["AlgSistemaInmunologico"]["prob_mutacion"]
+# iteraciones = datos["AlgSistemaInmunologico"]["Iteraciones"]
+# functObt = ParamLib.ParamAlgSistemaInmunologico();
+# sistema = AlgBio.SistemaInmunologico(num_anticuerpos, longitud_anticuerpo,functObt,antigeno,probabilidad_mutacion,iteraciones)
+# sistema.run()
 
-probabilidad_mutacion = 0.1
-sistema.mutar_anticuerpos(probabilidad_mutacion)
-print("\nAnticuerpos después de la mutación:")
-for anticuerpo in sistema.anticuerpos:
-    print(anticuerpo)
 
 
 
