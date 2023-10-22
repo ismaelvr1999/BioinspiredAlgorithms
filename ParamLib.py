@@ -137,14 +137,14 @@ datos = parametros.leerJSON("Conf.json")
 
 # ----------- Prueba Algoritmo Sistema inmunologico-------------
 
-# num_anticuerpos = datos["AlgSistemaInmunologico"]["num_anticuerpos"]
-# longitud_anticuerpo = datos["AlgSistemaInmunologico"]["long_anticuerpos"]
-# antigeno = [1, 0, 1, 0, 1, 0, 1, 0]
-# probabilidad_mutacion =  datos["AlgSistemaInmunologico"]["prob_mutacion"]
-# iteraciones = datos["AlgSistemaInmunologico"]["Iteraciones"]
-# functObt = ParamLib.ParamAlgSistemaInmunologico();
-# sistema = AlgBio.SistemaInmunologico(num_anticuerpos, longitud_anticuerpo,functObt,antigeno,probabilidad_mutacion,iteraciones)
-# sistema.run()
+num_anticuerpos = datos["AlgSistemaInmunologico"]["num_anticuerpos"]
+longitud_anticuerpo = datos["AlgSistemaInmunologico"]["long_anticuerpos"]
+antigeno = [1, 0, 1, 0, 1, 0, 1, 0]
+probabilidad_mutacion =  datos["AlgSistemaInmunologico"]["prob_mutacion"]
+iteraciones = datos["AlgSistemaInmunologico"]["Iteraciones"]
+functObt = ParamLib.ParamAlgSistemaInmunologico()
+sistema = AlgBio.SistemaInmunologico(num_anticuerpos, longitud_anticuerpo,functObt,antigeno,probabilidad_mutacion,iteraciones)
+sistema.run()
 
 
 

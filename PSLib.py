@@ -187,9 +187,27 @@ class AlgBio:
         def seleccionar_anticuerpos(self, num_seleccionados):
             afinidades = self.functObj.calcular_afinidad(self.antigeno,self.anticuerpos,self.longitud_anticuerpo)
             mejores_indices = sorted(range(len(afinidades)), key=lambda i: afinidades[i], reverse=True)
-            print(mejores_indices)
             seleccionados = [self.anticuerpos[i] for i in mejores_indices[:num_seleccionados]]
             return seleccionados
+
+        def cruzar(self):
+            nueva_generacion =[]
+          
+            for x in range(0,int(len(self.anticuerpos)/2)):
+                IndRand1 = random.randint(0,self.num_anticuerpos-1)
+                IndRand2 = random.randint(0,self.num_anticuerpos-1)
+                PuntoCruzaR = random.randint(0,self.longitud_anticuerpo-1)
+                Padre1 = self.anticuerpos[IndRand1]
+                Padre2 =  self.anticuerpos[IndRand2]
+                #print(f"Padre 1: {Padre1} Padre 2: {Padre2} PuntoDeCruza: {PuntoCruzaR}")
+                Hijo1 = Padre1[:PuntoCruzaR] + Padre2[PuntoCruzaR:]
+                Hijo2 = Padre2[:PuntoCruzaR] + Padre1[PuntoCruzaR:]
+                #print(f"Hijo 1: {Hijo1} Hijo 2: {Hijo2}")
+                nueva_generacion.append(Hijo1)
+                nueva_generacion.append(Hijo2)
+            
+
+
 
         def mutar_anticuerpos(self):
             for i in range(self.num_anticuerpos):
@@ -198,6 +216,7 @@ class AlgBio:
                         self.anticuerpos[i][j] = 1 - self.anticuerpos[i][j]
         
         def run(self):
+            self.cruzar()
             print(f"Antigeno : {self.antigeno}")
             print("Anticuerpos generados de inicio: ")
             for anticuerpo in self.anticuerpos:
@@ -207,6 +226,11 @@ class AlgBio:
                 print("Anticuerpos con mas afinidad: ")
                 seleccionados = self.seleccionar_anticuerpos(self.num_anticuerpos // 2)
                 for anticuerpo in seleccionados:
+                    print(anticuerpo)
+                
+                self.cruzar()
+                print("\nAnticuerpos después de la cruza:")
+                for anticuerpo in self.anticuerpos:
                     print(anticuerpo)
 
                 self.mutar_anticuerpos()
