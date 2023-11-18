@@ -4,6 +4,9 @@ from PSLib import AlgBio
 import json
 import random
 import math
+import numpy as np
+import tensorflow as tf
+import matplotlib.pyplot as plt
 class ParamLib:
     def __init__(self):
         pass
@@ -84,7 +87,24 @@ class ParamLib:
                 afinidad = sum([1 for i in range(longitud_anticuerpo) if anticuerpo[i] == antigeno[i]])
                 afinidades.append(afinidad)
             return afinidades
+    #  -----------Algoritmo Red Neuronal  -----------
+    class ParamRedNeuronal:
+        def __init__(self,modelo,datosEntrada,datosSalida,epocas):
+            self.datosEntrada = datosEntrada
+            self.datosSalida = datosSalida
+            self.epocas = epocas
+            self.modelo = modelo
 
+        def entrenar(self):
+            historia = self.modelo.fit(self.datosEntrada,self.datosSalida,epochs=self.epocas)
+            plt.xlabel("# epoca")
+            plt.ylabel("Magnitud de perdida")
+            plt.plot(historia.history['loss'])
+            plt.show()
+
+        def prediccion(self,valor):
+            return self.modelo.predict([valor])      
+            
     def leerJSON(self,NombreArch):
         with open(NombreArch) as archivo:
             datos = json.load(archivo)
@@ -94,7 +114,7 @@ class ParamLib:
 parametros = ParamLib()
 datos = parametros.leerJSON("Conf.json")
 
-# -----------Prueba Algoritmo genetico -----------     
+# ------- ----Prueba Algoritmo genetico -----------     
 # AlgGen = AlgBio.AlgGen()
 # tasaMutacion = datos["AlgGen"]["TasaMutacion"]
 # iteraciones = datos["AlgGen"]["Iteraciones"]
@@ -137,14 +157,29 @@ datos = parametros.leerJSON("Conf.json")
 
 # ----------- Prueba Algoritmo Sistema inmunologico-------------
 
-num_anticuerpos = datos["AlgSistemaInmunologico"]["num_anticuerpos"]
-longitud_anticuerpo = datos["AlgSistemaInmunologico"]["long_anticuerpos"]
-antigeno = [1, 0, 1, 0, 1, 0, 1, 0]
-probabilidad_mutacion =  datos["AlgSistemaInmunologico"]["prob_mutacion"]
-iteraciones = datos["AlgSistemaInmunologico"]["Iteraciones"]
-functObt = ParamLib.ParamAlgSistemaInmunologico()
-sistema = AlgBio.SistemaInmunologico(num_anticuerpos, longitud_anticuerpo,functObt,antigeno,probabilidad_mutacion,iteraciones)
-sistema.run()
+# num_anticuerpos = datos["AlgSistemaInmunologico"]["num_anticuerpos"]
+# longitud_anticuerpo = datos["AlgSistemaInmunologico"]["long_anticuerpos"]
+# antigeno = [1, 0, 1, 0, 1, 0, 1, 0]
+# probabilidad_mutacion =  datos["AlgSistemaInmunologico"]["prob_mutacion"]
+# iteraciones = datos["AlgSistemaInmunologico"]["Iteraciones"]
+# functObt = ParamLib.ParamAlgSistemaInmunologico()
+# sistema = AlgBio.SistemaInmunologico(num_anticuerpos, longitud_anticuerpo,functObt,antigeno,probabilidad_mutacion,iteraciones)
+# sistema.run()
+
+# ----------- Prueba Red Neuronal-------------
+
+num_neuronas=  datos["Red_Neuronal"]["num_neuronas"]
+taza_aprendizaje=  datos["Red_Neuronal"]["taza_aprendizaje"]
+num_epocas = datos["Red_Neuronal"]["num_epocas"]
+
+celsius = np.array([-40,-10,0,8,15,22,38],dtype=float)
+fahrenheit = np.array([-40,14,32,46,59,72,100],dtype=float)
+confRedNeuronal = AlgBio.RedNeuronal(num_neuronas,taza_aprendizaje)
+modelo = confRedNeuronal.getModelo()
+
+red_neuronal = ParamLib.ParamRedNeuronal(modelo,celsius,fahrenheit,num_epocas)
+
+red_neuronal.entrenar()
 
 
 

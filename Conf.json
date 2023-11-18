@@ -24,5 +24,11 @@
         "long_anticuerpos":8,
         "prob_mutacion":0.1,
         "Iteraciones":3
+    },
+    "Red_Neuronal":
+    {
+        "num_neuronas": 10,
+        "taza_aprendizaje":0.1,
+        "num_epocas":20
     }
 }

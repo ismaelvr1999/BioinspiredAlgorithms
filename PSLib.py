@@ -3,6 +3,8 @@
 import random
 import math
 import numpy as np
+import tensorflow as tf
+import matplotlib.pyplot as plt
 class AlgBio:
 
     def __init__(self) -> None:
@@ -237,8 +239,29 @@ class AlgBio:
                 print("\nAnticuerpos después de la mutación:")
                 for anticuerpo in self.anticuerpos:
                     print(anticuerpo)
+#  -----------Algoritmo Red Neuronal  -----------
+    class RedNeuronal:
+        def __init__(self,numeroNeuronas,tazaAprendizaje):
+            self.numeroNeuronas = numeroNeuronas
+            self.tazaAprendizaje = tazaAprendizaje
+        def confCapa(self):
+            self.modelo =  tf.keras.Sequential([
+                tf.keras.layers.Dense(units=self.numeroNeuronas,input_shape=[1],name="Capa_entrada"),
+                tf.keras.layers.Dense(units=self.numeroNeuronas,name="Capa_oculta"),
+                tf.keras.layers.Dense(units=1,name="Capa_salida")
+                ])
 
+        def confCompile(self):
+            self.modelo.compile(
+                optimizer=tf.keras.optimizers.Adam(self.tazaAprendizaje),
+                loss='mean_squared_error')
+            
+        def getModelo(self):
+            self.confCapa()
+            self.confCompile()
+            return self.modelo
 
+            
 
 
 
