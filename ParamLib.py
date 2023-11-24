@@ -171,15 +171,25 @@ datos = parametros.leerJSON("Conf.json")
 num_neuronas=  datos["Red_Neuronal"]["num_neuronas"]
 taza_aprendizaje=  datos["Red_Neuronal"]["taza_aprendizaje"]
 num_epocas = datos["Red_Neuronal"]["num_epocas"]
+num_capas = datos["Red_Neuronal"]["num_capas_ocultas"]
 
-celsius = np.array([-40,-10,0,8,15,22,38],dtype=float)
-fahrenheit = np.array([-40,14,32,46,59,72,100],dtype=float)
-confRedNeuronal = AlgBio.RedNeuronal(num_neuronas,taza_aprendizaje)
+celsius = np.array([0, 5, 10, 15, 20, 25, 30, 35, 40, 45,
+                50, 55, 60, 65, 70, 75, 80, 85, 90, 95,
+                100, 105, 110, 115, 120, 125, 130, 135, 140, 145,
+                150, 155, 160, 165, 170, 175, 180, 185, 190, 195],dtype=float)
+
+fahrenheit = np.array([32, 41, 50, 59, 68, 77, 86, 95, 104, 113,
+                   122, 131, 140, 149, 158, 167, 176, 185, 194, 203,
+                   212, 221, 230, 239, 248, 257, 266, 275, 284, 293,
+                   302, 311, 320, 329, 338, 347, 356, 365, 374, 383],dtype=float)
+
+confRedNeuronal = AlgBio.RedNeuronal(num_neuronas,taza_aprendizaje,num_capas)
 modelo = confRedNeuronal.getModelo()
 
 red_neuronal = ParamLib.ParamRedNeuronal(modelo,celsius,fahrenheit,num_epocas)
 
 red_neuronal.entrenar()
+print(red_neuronal.prediccion(0))
 
 
 

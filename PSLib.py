@@ -241,15 +241,21 @@ class AlgBio:
                     print(anticuerpo)
 #  -----------Algoritmo Red Neuronal  -----------
     class RedNeuronal:
-        def __init__(self,numeroNeuronas,tazaAprendizaje):
+        def __init__(self,numeroNeuronas,tazaAprendizaje,numCapas):
             self.numeroNeuronas = numeroNeuronas
             self.tazaAprendizaje = tazaAprendizaje
+            self.numCapas = numCapas
+        
         def confCapa(self):
             self.modelo =  tf.keras.Sequential([
-                tf.keras.layers.Dense(units=self.numeroNeuronas,input_shape=[1],name="Capa_entrada"),
-                tf.keras.layers.Dense(units=self.numeroNeuronas,name="Capa_oculta"),
-                tf.keras.layers.Dense(units=1,name="Capa_salida")
+                tf.keras.layers.Dense(units=self.numeroNeuronas,input_shape=[1],name="Capa_entrada")
                 ])
+            for i in range(0,self.numCapas):
+                self.modelo.add(tf.keras.layers.Dense(units=self.numeroNeuronas,name="Capa_oculta"+str(i)))
+           
+            self.modelo.add(tf.keras.layers.Dense(units=1,name="Capa_salida"))
+            
+
 
         def confCompile(self):
             self.modelo.compile(

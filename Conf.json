@@ -29,6 +29,7 @@
     {
         "num_neuronas": 10,
         "taza_aprendizaje":0.1,
-        "num_epocas":20
+        "num_epocas":50,
+        "num_capas_ocultas":3
     }
 }
