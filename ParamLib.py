@@ -1,5 +1,4 @@
 #Villalpando Rivera Ismael
-#Cutonala. ALgoritmos Bioinspirados. 2023-B
 from PSLib import AlgBio
 import json
 import random
@@ -114,7 +113,7 @@ class ParamLib:
 parametros = ParamLib()
 datos = parametros.leerJSON("Conf.json")
 
-# ------- ----Prueba Algoritmo genetico -----------     
+# ------- ----Prueba Genetic Algorithm -----------     
 # AlgGen = AlgBio.AlgGen()
 # tasaMutacion = datos["AlgGen"]["TasaMutacion"]
 # iteraciones = datos["AlgGen"]["Iteraciones"]
@@ -122,7 +121,7 @@ datos = parametros.leerJSON("Conf.json")
 # obj.GenerarGeneraciones()
 
 
-#  -----------Prueba Algoritmo de colonia de hormigas -----------
+#  -----------Prueba Ant Colony Algorithm -----------
 # graph = [
 #     [0, 5, 2, 10],
 #     [5, 0, 6, 3],
@@ -142,7 +141,7 @@ datos = parametros.leerJSON("Conf.json")
 # print(f"Mejor distancia encontrada: {best_distance}")
 # print(f"Mejor camino encontrado: {best_tour}")
 
-# ----------- Prueba Recocido Simulado-------------
+# ----------- Prueba Simulated Annealing Algorithm-------------
 
 # ciudades = [(0, 0), (1, 2), (3, 1), (2, 3), (5, 2)]  # Coordenadas de las ciudades
 # temperatura_inicial = datos["AlgRecocidoSimulado"]["TempIni"]
@@ -155,7 +154,7 @@ datos = parametros.leerJSON("Conf.json")
 # print("Mejor solución encontrada:", mejor_solucion)
 # print("Costo de la mejor solución:", mejor_costo)
 
-# ----------- Prueba Algoritmo Sistema inmunologico-------------
+# ----------- Prueba Immune System Algorithm-------------
 
 # num_anticuerpos = datos["AlgSistemaInmunologico"]["num_anticuerpos"]
 # longitud_anticuerpo = datos["AlgSistemaInmunologico"]["long_anticuerpos"]
@@ -166,9 +165,9 @@ datos = parametros.leerJSON("Conf.json")
 # sistema = AlgBio.SistemaInmunologico(num_anticuerpos, longitud_anticuerpo,functObt,antigeno,probabilidad_mutacion,iteraciones)
 # sistema.run()
 
-# ----------- Prueba Red Neuronal-------------
+# ----------- Neural Network Algorithm-------------
 
-num_neuronas=  datos["Red_Neuronal"]["num_neuronas"]
+""" num_neuronas=  datos["Red_Neuronal"]["num_neuronas"]
 taza_aprendizaje=  datos["Red_Neuronal"]["taza_aprendizaje"]
 num_epocas = datos["Red_Neuronal"]["num_epocas"]
 num_capas = datos["Red_Neuronal"]["num_capas_ocultas"]
@@ -189,7 +188,7 @@ modelo = confRedNeuronal.getModelo()
 red_neuronal = ParamLib.ParamRedNeuronal(modelo,celsius,fahrenheit,num_epocas)
 
 red_neuronal.entrenar()
-print(red_neuronal.prediccion(0))
+print(red_neuronal.prediccion(0)) """
 
 
 

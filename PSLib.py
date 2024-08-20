@@ -1,5 +1,4 @@
 #Villalpando Rivera Ismael
-#Cutonala. ALgoritmos Bioinspirados. 2023-B
 import random
 import math
 import numpy as np
@@ -9,7 +8,7 @@ class AlgBio:
 
     def __init__(self) -> None:
         pass
-#-----------Algoritmo genetico -----------
+#-----------Genetic Algorithm -----------
     class AlgGen:
 
         def __init__(self) -> None:
@@ -38,12 +37,8 @@ class AlgBio:
                 Hijo1 = BinPadr2[:PuntoCruzaR] + BinPadr1[PuntoCruzaR:]
                 Hijo2 = BinPadr1[:PuntoCruzaR] +BinPadr2[PuntoCruzaR:]
 
-                #print(f"Punto de Cruze: {str(PuntoCruzaR)} Padre 1: {BinPadr1} Padre 2: {BinPadr2}")
-                #print(f"Hijo 1: {Hijo1} Hijo 2: {Hijo2}")
-
                 MutacionH1 = self.Mutacion(Hijo1,tasa_mutacion)
                 MutacionH2 = self.Mutacion(Hijo2,tasa_mutacion)
-                #print(f"Mutacion Hijo 1: { MutacionH1} MutacionHijo 2: { MutacionH2}")
 
                 nuevaGeneracion.append(int(MutacionH1,2))
                 nuevaGeneracion.append(int(MutacionH2,2))
@@ -62,7 +57,7 @@ class AlgBio:
                     break
             HijoMutadoN =''.join(HijoMutado)
             return HijoMutadoN
-#  -----------Algoritmo de colonia de hormigas -----------
+#  -----------Ant Colony Algorithm -----------
     class AntColony:
         def __init__(self, num_ants, num_iteraciones, tasa_evaporacion_feromona, alpha, beta, graph,funcion_objetivo):
             self.num_ants = num_ants
@@ -136,7 +131,7 @@ class AlgBio:
                     to_city = tour[i + 1]
                     self.matriz_feromonas[from_city][to_city] += 1 / tour_distance
                     self.matriz_feromonas[to_city][from_city] += 1 / tour_distance
-#  -----------Algoritmo Recocido Simulado -----------
+#  -----------Simulated Annealing Algorithm -----------
     class RecocidoSimulado:
         def __init__(self, ciudades, temperatura_inicial, factor_enfriamiento, iteraciones,funcion_objetivo):
             self.ciudades = ciudades
@@ -168,7 +163,7 @@ class AlgBio:
                 temperatura_actual *= self.factor_enfriamiento
 
             return mejor_solucion, mejor_costo
-#  -----------Algoritmo Sistema inmunologico -----------
+#  -----------Immune System Algorithm -----------
     class SistemaInmunologico:
         def __init__(self, num_anticuerpos, longitud_anticuerpo,functObj,antigeno,probabilidad_mutacion,iteraciones):
             self.num_anticuerpos = num_anticuerpos
@@ -201,15 +196,12 @@ class AlgBio:
                 PuntoCruzaR = random.randint(0,self.longitud_anticuerpo-1)
                 Padre1 = self.anticuerpos[IndRand1]
                 Padre2 =  self.anticuerpos[IndRand2]
-                #print(f"Padre 1: {Padre1} Padre 2: {Padre2} PuntoDeCruza: {PuntoCruzaR}")
+
                 Hijo1 = Padre1[:PuntoCruzaR] + Padre2[PuntoCruzaR:]
                 Hijo2 = Padre2[:PuntoCruzaR] + Padre1[PuntoCruzaR:]
-                #print(f"Hijo 1: {Hijo1} Hijo 2: {Hijo2}")
+
                 nueva_generacion.append(Hijo1)
                 nueva_generacion.append(Hijo2)
-            
-
-
 
         def mutar_anticuerpos(self):
             for i in range(self.num_anticuerpos):
@@ -239,7 +231,7 @@ class AlgBio:
                 print("\nAnticuerpos después de la mutación:")
                 for anticuerpo in self.anticuerpos:
                     print(anticuerpo)
-#  -----------Algoritmo Red Neuronal  -----------
+#  -----------Neural Network Algorithm  -----------
     class RedNeuronal:
         def __init__(self,numeroNeuronas,tazaAprendizaje,numCapas):
             self.numeroNeuronas = numeroNeuronas
