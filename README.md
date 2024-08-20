@@ -20,6 +20,7 @@ This repository contains implementations of various bioinspired algorithms for o
 
 
 # Technologies Used 🔧
+- **Python** 🐍: Programming language used for data analysis and machine learning.
 - **NumPy** 📊: For handling numerical data and arrays.
 - **TensorFlow** 🤖: For building and training the neural network model.
 - **Matplotlib** 📈: For visualizing the results (note: this is implied; if you used it, you should mention how it's used).
